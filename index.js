@@ -1,9 +1,36 @@
 let users = [];
 let user = {};
-// let useremail = "";
-// let username = "";
-// let currBalance = 0;
 document.write("<div id=root></div>");
+function showHeader() {
+  let str = `
+  <div class="row bg-success">
+          <div class="col-lg-8">
+            <h1>My Bank</h1>
+          </div>
+          <div class="col-lg-4 text-end">
+          <button onclick='showHome()'>Home</button>
+          ${
+            user.email
+              ? "<button onclick='showLogout()'>Logout</button>"
+              : "<button onclick='showLogin()'>Login</button>"
+          }
+            <!-- <button onclick="toggle('dark')" class="btn btn-dark">Dark</button>
+            <button onclick="toggle('light')" class="btn btn-light">Light</button> -->
+          </div>
+        </div>
+  `;
+  header.innerHTML = str;
+}
+
+function toggle(color) {
+  if (color == "dark") {
+    document.body.style.background = "black";
+    document.body.style.color = "white";
+  } else {
+    document.body.style.background = "white";
+    document.body.style.color = "black";
+  }
+}
 function showUser() {
   if (document.getElementById("type").value == "3") {
     console.log("Transfer");
@@ -50,21 +77,29 @@ function saveData() {
     }
   }
 }
+
+function showLogout() {
+  user = {};
+  showHeader();
+  showHome();
+}
 function home() {
+  showHeader();
   let str = `
+  <div class="w-100 bg-light p-5 rounded text-center">
       <h3>Welcome ${user.name}</h3>
-      <button onclick='showLogin()'>Logout</button>
-      <p><select id="type" onchange='showUser()'>
+      <button onclick='showLogin()' class="form-control btn btn-dark">Logout</button><br>
+      <p><br><select id="type" class="form-control" onchange='showUser()'>
          <option value=0>--Select--</option>
          <option value=1>Deposit</option>
          <option value=2>Withdraw</option>
          <option value=3>Transfer</option>
          </select></p>
-         <p><select style="display:none" id="selUser"></select></p>
-         <p><input type="number" id="amount" placeholder="Enter Amount"></p>
-         <button onclick='saveData()'>Submit</button>
+         <p><select style="display:none" id="selUser" class="form-control"></select></p>
+         <p><input type="number" id="amount" class="form-control" placeholder="Enter Amount"></p>
+         <button onclick='saveData()' class="form-control btn btn-success">Submit</button>
          <p><b>Current Balance: <span id='spBalance'>${user.balance}</span></b></p>
-
+    </div>
       `;
   root.innerHTML = str;
 }
@@ -101,28 +136,51 @@ function chkUser() {
 }
 function showForm() {
   let str = `
+  <div class="w-100 bg-light p-5 rounded text-center">
   <h2>Registration Form</h2>
-  <p><input type="text" id="name" placeholder="Name"></p>
-  <p><input type="text" id="email" placeholder="Email"></p>
-  <p><input type="password" id="password" placeholder="Password"></p>
-  <p><input type="date" id="dob"></p>
-  <p><button onclick='addUser()'>Submit</button></p>
-  <p>Already a member?<button onclick='showLogin()'>Login Here</button></p>
+  <p><input type="text" class="form-control" id="name" placeholder="Name"></p>
+  <p><input type="text" class="form-control" id="email" placeholder="Email"></p>
+  <p><input type="password" class="form-control" id="password" placeholder="Password"></p>
+  <p><input type="date" class="form-control" id="dob"></p>
+  <p><button onclick='addUser()' class="form-control btn btn-success">Submit</button></p>
+  <p>Already a member?<button onclick='showLogin()' class="form-control btn btn-primary">Login Here</button></p>
+  </div>
   `;
   root.innerHTML = str;
 }
 function showLogin() {
   let str = `
-  <div>
+  <div class="w-100 bg-light m-3 p-5 rounded text-center">
       <h2>Login Form</h2>
       <div id='msg'></div>
-      <p><input id="email" type="text"></p>
-      <p><input id="password" type="password"></p>
-      <button onclick='chkUser()'>Log In</button>
-      <p><button onclick='showForm()'>Create Account</button></p>
+      <p><input id="email" class='form-control' placeholder='Email address' type="text"></p>
+      <p><input id="password" class='form-control' placeholder='Password' type="password"></p>
+      <button onclick='chkUser()' class="btn btn-primary w-100">Log In</button>
+      <p><button onclick='showForm()' class="btn btn-success mt-5">Create Account</button></p>
   </div>
   `;
   root.innerHTML = str;
 }
 
-showLogin();
+function showHome() {
+  showHeader();
+  let str = `
+<div class="card text-center">
+  <div class="card-header">
+    Featured
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Welcome! Your financial journey starts here!</h5>
+    <p class="card-text">We are committed to providing secure, convenient, and innovative banking solutions to help you manage your finances with ease. From savings and loans to digital banking, we’re here to support your financial goals every step of the way.</p>
+    <button onclick='showForm()' class="btn btn-primary">Create Account</button>
+  </div>
+  <div class="card-footer text-muted">
+    2 days ago
+  </div>
+</div>
+
+`;
+  root.innerHTML = str;
+}
+
+showHome();
